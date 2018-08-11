@@ -79,7 +79,7 @@
     precedence: low
     trigger:
       timer:
-        - time: '16 0 * * *'
+        - time: '05 16 * * *'
     success:
       zuul_db:
     failure:
