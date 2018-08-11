@@ -26,11 +26,9 @@
     success:
       github:
         status: 'success'
-      zuul_db:
     failure:
       github:
         status: 'failure'
-      zuul_db:
 
 - pipeline:
     name: gate
@@ -65,11 +63,9 @@
       github:
         status: 'success'
         merge: yes
-      zuul_db:
     failure:
       github:
         status: 'failure'
-      zuul_db:
 
 - pipeline:
     name: periodic
@@ -81,9 +77,7 @@
       timer:
         - time: '05 16 * * *'
     success:
-      zuul_db:
     failure:
-      zuul_db:
 
 - pipeline:
     name: third-party-check
@@ -107,7 +101,5 @@
           action: comment
           comment: (?i)^\s*recheck\s*$
     success:
-      zuul_db:
     failure:
-      zuul_db:
 
