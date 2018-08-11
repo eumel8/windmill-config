@@ -76,8 +76,6 @@
     trigger:
       timer:
         - time: '05 16 * * *'
-    success:
-    failure:
 
 - pipeline:
     name: third-party-check
@@ -100,6 +98,3 @@
         - event: pull_request
           action: comment
           comment: (?i)^\s*recheck\s*$
-    success:
-    failure:
-
