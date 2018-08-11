@@ -14,15 +14,15 @@ zookeeper-servers:
 
 labels:
   - name: ubuntu-xenial
-  - name: fedora-27
-  - name: fedora-28
+  - name: ubuntu-bionic
 
 providers:
   - name: otc-eu-de
     cloud: otc
     rate: 0.25
     diskimages: &provider_diskimages
-      - name: fedora-28
+      - name: ubuntu-xenial
+      - name: ubuntu-bionic
     pools:
       - name: dynamic
 {% if nodepool_os_cloud_networks %}
@@ -33,18 +33,17 @@ providers:
         security-groups:
           - {{ nodepool_os_cloud_security_groups }}
 {% endif %}
-        auto-floating-ip: False
+        auto-floating-ip: True
         labels: &provider_pools_labels
-          - name: fedora-27
+          - name: ubuntu-bionic
             flavor-name: s2.xlarge.2
-            diskimage: fedora-27
+            diskimage: ubuntu-bionic
             key-name: nodepool
             console-log: true
-          - name: fedora-28
+          - name: ubuntu-xenial
             flavor-name: s2.xlarge.2
-            diskimage: fedora-28
+            diskimage: ubuntu-xenial
             key-name: nodepool
-            console-log: true
 
 diskimages:
   - name: ubuntu-xenial
@@ -61,47 +60,17 @@ diskimages:
       DIB_CHECKSUM: '1'
       DIB_DEBIAN_COMPONENTS: 'main,universe'
       DIB_IMAGE_CACHE: /opt/nodepool/cache
-  - name: fedora-27
-    pause: false
+  - name: ubuntu-bionic
     elements:
-      - fedora-minimal
-      - vm
-      - simple-init
-      # - openstack-repos
-      - nodepool-base
-      # - cache-devstack
-      - initialize-urandom
+      - ubuntu-minimal
       - growroot
-      - infra-package-needs
-      - otc-base
-    release: 27
+      - openssh-server
+      - simple-init
+      - vm
+      - zuul-worker
+    release: bionic
     env-vars:
       TMPDIR: /opt/nodepool/tmp
       DIB_CHECKSUM: '1'
+      DIB_DEBIAN_COMPONENTS: 'main,universe'
       DIB_IMAGE_CACHE: /opt/nodepool/cache
-      QEMU_IMG_OPTIONS: compat=0.10
-      DIB_GRUB_TIMEOUT: '0'
-      GIT_HTTP_LOW_SPEED_TIME: '300'
-      GIT_HTTP_LOW_SPEED_LIMIT: '1000'
-  - name: fedora-28
-    pause: false
-    elements:
-      - fedora-minimal
-      - vm
-      - simple-init
-      # - openstack-repos
-      - nodepool-base
-      # - cache-devstack
-      - initialize-urandom
-      - growroot
-      - infra-package-needs
-      - otc-base
-    release: 28
-    env-vars:
-      TMPDIR: /opt/nodepool/tmp
-      DIB_CHECKSUM: '1'
-      DIB_IMAGE_CACHE: /opt/nodepool/cache
-      QEMU_IMG_OPTIONS: compat=0.10
-      DIB_GRUB_TIMEOUT: '0'
-      GIT_HTTP_LOW_SPEED_TIME: '300'
-      GIT_HTTP_LOW_SPEED_LIMIT: '1000'
