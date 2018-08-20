@@ -13,6 +13,7 @@
         untrusted-projects:
           - eumel8/windmill-jobs
           - eumel8/docs-i18n
+          - eumel8/zuullab
       git.zuul-ci.org:
         untrusted-projects:
           - zuul-jobs
