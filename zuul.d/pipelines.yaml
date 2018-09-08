@@ -21,7 +21,7 @@
         - event: push
     start:
       github:
-        status: pending
+        status: 'pending'
         comment: false
     success:
       github:
@@ -61,7 +61,7 @@
         - event: push
     start:
       github:
-        status: pending
+        status: 'pending'
         comment: false
     success:
       github:
