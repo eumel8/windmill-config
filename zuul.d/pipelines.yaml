@@ -18,6 +18,7 @@
         - event: pull_request
           action: comment
           comment: (?i)^\s*recheck\s*$
+        - event: push
     start:
       github:
         status: pending
@@ -35,7 +36,6 @@
     trigger:
       timer:
         - time: '0,10,20,30,40,50 * * * *'
-    success:
 
 - pipeline:
     name: third-party-check
@@ -58,6 +58,7 @@
         - event: pull_request
           action: comment
           comment: (?i)^\s*recheck\s*$
+        - event: push
     start:
       github:
         status: pending
