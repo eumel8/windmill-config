@@ -18,7 +18,6 @@
         - event: pull_request
           action: comment
           comment: (?i)^\s*recheck\s*$
-        - event: push
     start:
       github:
         status: pending
