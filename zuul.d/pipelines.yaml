@@ -1,8 +1,8 @@
 - pipeline:
     name: check
     description: |
-      Newly opened pull requests enter this pipeline to receive an
-      initial verification
+      Newly uploaded patchsets enter this pipeline to receive an
+      initial +/-1 Verified vote.
     success-message: Build succeeded (check pipeline).
     failure-message: |
       Build failed (check pipeline).  For information on how to proceed, see
@@ -30,56 +30,22 @@
         status: 'failure'
 
 - pipeline:
-    name: gate
-    description: |
-      Changes that have been approved by core developers are enqueued
-      in order in this pipeline, and if they pass tests, will be
-      merged.
-    success-message: Build succeeded (gate pipeline).
-    failure-message: |
-      Build failed (gate pipeline).  For information on how to proceed, see
-      http://docs.openstack.org/infra/manual/developers.html#automated-testing
-    manager: dependent
-    precedence: high
-    post-review: True
-    require:
-      github:
-        review:
-          - type: approved
-            # username: gtema
-            permission: write
-        current-patchset: True
-        open: True
-    trigger:
-      github:
-        - event: pull_request_review
-          state: approved
-    start:
-      github:
-        status: pending
-        comment: false
-    success:
-      github:
-        status: 'success'
-        merge: yes
-    failure:
-      github:
-        status: 'failure'
-
-- pipeline:
     name: periodic
     post-review: true
     description: Jobs in this queue are triggered on a timer.
     manager: independent
-    precedence: high
+    precedence: low
     trigger:
       timer:
         - time: '0,10,20,30,40,50 * * * *'
+    success:
+    failure:
 
 - pipeline:
     name: third-party-check
     description: |
-      Newly uploaded patchsets to projects that are external.
+      Newly uploaded patchsets to projects that are external to OpenStack
+      enter this pipeline to receive an initial +/-1 Verified vote.
     success-message: Build succeeded (third-party-check pipeline).
     failure-message: |
       Build failed (third-party-check pipeline) integration testing with
@@ -96,3 +62,13 @@
         - event: pull_request
           action: comment
           comment: (?i)^\s*recheck\s*$
+    start:
+      github:
+        status: pending
+        comment: false
+    success:
+      github:
+        status: 'success'
+    failure:
+      github:
+        status: 'failure'
